@@ -1,32 +1,107 @@
-# If you prefer the allow list template instead of the deny list, see community template:
-# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
-#
-# Binaries for programs and plugins
+# ============================================
+# BINÁRIOS E EXECUTÁVEIS
+# ============================================
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
 
-# Test binary, built with `go test -c`
-*.test
+# ============================================
+# DIRETÓRIOS DE BUILD
+# ============================================
+bin/
+build/bin/
+build/darwin/
+build/windows/
+build/linux/
 
-# Code coverage profiles and other test artifacts
+# ============================================
+# GO
+# ============================================
+# Arquivos de teste
+*.test
 *.out
+
+# Coverage
 coverage.*
 *.coverprofile
 profile.cov
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
-
-# Go workspace file
+# Go workspace
 go.work
 go.work.sum
 
-# env file
-.env
+# ============================================
+# FRONTEND (React + Node)
+# ============================================
+# Dependências
+frontend/node_modules/
+node_modules/
 
-# Editor/IDE
-# .idea/
-# .vscode/
+# Build do frontend
+frontend/dist/
+frontend/.vite/
+
+# Lock files (opcional - alguns preferem commitar)
+# frontend/package-lock.json
+
+# ============================================
+# WAILS
+# ============================================
+.wails/
+
+# ============================================
+# IDE / EDITORES
+# ============================================
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IntelliJ / GoLand
+.idea/
+
+# Vim
+*.swp
+*.swo
+*~
+
+# ============================================
+# SISTEMA OPERACIONAL
+# ============================================
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# Linux
+*~
+
+# ============================================
+# LOGS
+# ============================================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ============================================
+# VARIÁVEIS DE AMBIENTE
+# ============================================
+.env
+.env.local
+.env.*.local
+
+# ============================================
+# BANCO DE DADOS (quando criar)
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+cockpit.db
