@@ -585,7 +585,7 @@ PRAGMA temp_store = MEMORY;
 func NewDB() (*DB, error) {
     dbPath := getDatabasePath()
     
-    conn, err := sql.Open("sqlite3", dbPath)
+    conn, err := sql.Open("sqlite", dbPath)
     if err != nil {
         return nil, err
     }
