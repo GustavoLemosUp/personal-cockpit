@@ -7,7 +7,49 @@
   "frontend:dev:watcher": "npm run dev",
   "frontend:dev:serverUrl": "auto",
   "author": {
-    "name": "Gustavo-Lemos-upco",
+    "name": "Gustavo Lemos",
     "email": "gustavo.lemos@updatecommit.com"
-  }
+  },
+  "info": {
+    "companyName": "Update Commit",
+    "productName": "Personal Cockpit",
+    "productVersion": "1.0.0",
+    "copyright": "© 2026 Gustavo Lemos",
+    "comments": "Organizador pessoal de tarefas, notas e eventos"
+  },
+  "wailsjsdir": "./frontend",
+  "assetdir": "./frontend/dist",
+  "reloadInDebug": true,
+  "windowStartState": "normal",
+  "windows": [
+    {
+      "title": "Personal Cockpit",
+      "width": 1280,
+      "height": 800,
+      "minWidth": 900,
+      "minHeight": 600,
+      "startState": "normal",
+      "resizable": true,
+      "fullscreenButtonEnabled": true,
+      "frameless": false,
+      "theme": "system",
+      "customTheme": {
+        "dark": {
+          "titleBar": "#1C1C1E",
+          "titleText": "#F5F5F7",
+          "border": "#2C2C2E",
+          "button": "#3A3A3C",
+          "buttonHover": "#48484A"
+        },
+        "light": {
+          "titleBar": "#FFFFFF",
+          "titleText": "#1D1D1F",
+          "border": "#E5E5EA",
+          "button": "#F5F5F7",
+          "buttonHover": "#E8E8EA"
+        }
+      },
+      "backgroundColor": "#1C1C1E"
+    }
+  ]
 }

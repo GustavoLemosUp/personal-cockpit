@@ -1,28 +1,37 @@
-import {useState} from 'react';
-import logo from './assets/images/logo-universal.png';
+import { useState } from 'react';
 import './App.css';
-import {Greet} from "../wailsjs/go/main/App";
+import { Layout } from './components/Layout';
+import { Dashboard } from './components/Dashboard';
+import { TasksPage } from './components/tasks/TasksPage';
+import { NotesPage } from './components/notes/NotesPage';
+import { EventsPage } from './components/events/EventsPage';  // ← ADICIONAR
+import { CategoriesPage } from './components/categories/CategoriesPage';  // ← ADICIONAR
 
 function App() {
-    const [resultText, setResultText] = useState("Please enter your name below 👇");
-    const [name, setName] = useState('');
-    const updateName = (e: any) => setName(e.target.value);
-    const updateResultText = (result: string) => setResultText(result);
+  const [currentPage, setCurrentPage] = useState('dashboard');
 
-    function greet() {
-        Greet(name).then(updateResultText);
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'dashboard':
+        return <Dashboard />;
+      case 'tasks':
+        return <TasksPage />;
+      case 'notes':
+        return <NotesPage />;
+      case 'events':
+        return <EventsPage />;  // ← USAR
+      case 'categories':
+        return <CategoriesPage />;  // ← USAR
+      default:
+        return <Dashboard />;
     }
+  };
 
-    return (
-        <div id="App">
-            <img src={logo} id="logo" alt="logo"/>
-            <div id="result" className="result">{resultText}</div>
-            <div id="input" className="input-box">
-                <input id="name" className="input" onChange={updateName} autoComplete="off" name="input" type="text"/>
-                <button className="btn" onClick={greet}>Greet</button>
-            </div>
-        </div>
-    )
+  return (
+    <Layout currentPage={currentPage} onNavigate={setCurrentPage}>
+      {renderPage()}
+    </Layout>
+  );
 }
 
-export default App
+export default App;

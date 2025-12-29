@@ -56,6 +56,8 @@ export function Greet(arg1:string):Promise<string>;
 
 export function SearchNotes(arg1:string):Promise<Array<models.Note>>;
 
+export function SetTheme(arg1:string):Promise<void>;
+
 export function ToggleNoteFavorite(arg1:number):Promise<void>;
 
 export function ToggleTaskStatus(arg1:number):Promise<void>;
