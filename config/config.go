@@ -26,6 +26,10 @@ type Config struct {
 	// Database
 	DBDirName string
 	DBFile    string
+
+	// Google OAuth2
+	GoogleClientID     string
+	GoogleClientSecret string
 }
 
 var loaded *Config
@@ -59,8 +63,10 @@ func Load() (*Config, error) {
 		WindowTitle:  getEnv("WINDOW_TITLE", "Personal Cockpit"),
 		WindowWidth:  getEnvInt("WINDOW_WIDTH", 1024),
 		WindowHeight: getEnvInt("WINDOW_HEIGHT", 768),
-		DBDirName:    getEnv("DB_DIR_NAME", "Personal Cockpit"),
-		DBFile:       getEnv("DB_FILE", "cockpit.db"),
+		DBDirName:          getEnv("DB_DIR_NAME", "Personal Cockpit"),
+		DBFile:             getEnv("DB_FILE", "cockpit.db"),
+		GoogleClientID:     getEnv("GOOGLE_CLIENT_ID", ""),
+		GoogleClientSecret: getEnv("GOOGLE_CLIENT_SECRET", ""),
 	}
 
 	return loaded, nil
