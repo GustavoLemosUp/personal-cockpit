@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"personal-cockpit/config"
 	"personal-cockpit/database"
 	"personal-cockpit/models"
 	"personal-cockpit/services"
@@ -206,15 +207,16 @@ func (a *App) GetNoteCategories() ([]models.Category, error) {
 // ═══════════════════════════════════════════════════════════
 
 func (a *App) GetAppInfo() map[string]string {
+	cfg := config.MustLoad()
 	return map[string]string{
-		"name":    AppName,
-		"version": GetFullVersion(),
-		"year":    CurrentYear,
+		"name":    cfg.AppName,
+		"version": cfg.FullVersion(),
+		"year":    cfg.CurrentYear,
 	}
 }
 
 func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Olá %s! Bem-vindo ao Personal Cockpit v%s", name, GetFullVersion())
+	return fmt.Sprintf("Olá %s! Bem-vindo ao Personal Cockpit v%s", name, config.MustLoad().FullVersion())
 }
 
 // ═══════════════════════════════════════════════════════════
