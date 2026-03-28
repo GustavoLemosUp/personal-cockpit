@@ -105,3 +105,4 @@ yarn-error.log*
 *.sqlite
 *.sqlite3
 cockpit.db
+.claude

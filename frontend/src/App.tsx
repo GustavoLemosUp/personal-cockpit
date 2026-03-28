@@ -32,6 +32,7 @@ function App() {
       {renderPage()}
     </Layout>
   );
+  
 }
 
 export default App;
