@@ -12,6 +12,7 @@ type Event struct {
 	Color           string    `json:"color"`
 	Location        string    `json:"location"`
 	ReminderMinutes *int      `json:"reminder_minutes"`
+	GoogleEventID   *string   `json:"google_event_id,omitempty"`
 	CreatedAt       time.Time `json:"created_at"`
 	UpdatedAt       time.Time `json:"updated_at"`
 }

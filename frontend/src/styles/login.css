@@ -1,0 +1,337 @@
+/* Login / Profile Selector */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  padding: var(--spacing-lg);
+}
+
+.login-container {
+  width: 100%;
+  max-width: 480px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.login-header {
+  padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-lg);
+  text-align: center;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.login-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--spacing-md);
+  font-size: 2rem;
+}
+
+.login-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--spacing-xs);
+}
+
+.login-subtitle {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+.login-body {
+  padding: var(--spacing-xl);
+}
+
+/* Profile Grid (selector view) */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  background: var(--bg-tertiary);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.profile-card:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.profile-card-name {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.profile-card-role {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+/* Avatar */
+.profile-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--accent);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-avatar.small {
+  width: 32px;
+  height: 32px;
+  font-size: 0.875rem;
+}
+
+.profile-avatar.large {
+  width: 72px;
+  height: 72px;
+  font-size: 1.75rem;
+}
+
+/* Profile badge (admin/member tag) */
+.profile-badge {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.profile-badge.admin {
+  background: rgba(0, 113, 227, 0.12);
+  color: var(--accent);
+}
+
+.profile-badge.member {
+  background: var(--bg-active);
+  color: var(--text-secondary);
+}
+
+/* Login form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.login-form .btn {
+  width: 100%;
+  justify-content: center;
+  padding: 12px;
+  font-size: 1rem;
+}
+
+.login-divider {
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+  position: relative;
+  margin: var(--spacing-sm) 0;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 24px);
+  height: 1px;
+  background: var(--border-light);
+}
+
+.login-divider::before { left: 0; }
+.login-divider::after  { right: 0; }
+
+/* PIN dots */
+.pin-dots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: var(--spacing-md) 0;
+}
+
+.pin-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background var(--transition);
+}
+
+.pin-dot.filled {
+  background: var(--accent);
+}
+
+/* Success message */
+.success-message {
+  background: #f0fdf4;
+  color: var(--success);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  border: 1px solid #bbf7d0;
+  margin-bottom: var(--spacing-md);
+}
+
+@media (prefers-color-scheme: dark) {
+  .success-message {
+    background: rgba(50, 215, 75, 0.1);
+    border-color: rgba(50, 215, 75, 0.3);
+  }
+}
+
+/* ── Google Calendar Settings ──────────────────────────────── */
+
+.gcal-setup-notice {
+  text-align: center;
+  padding: var(--spacing-lg);
+}
+
+.gcal-setup-icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.gcal-setup-notice h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+}
+
+.gcal-setup-notice p {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.gcal-code-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  text-align: left;
+}
+
+.gcal-code-block code {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.8125rem;
+  color: var(--accent);
+}
+
+.gcal-steps {
+  text-align: left;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.gcal-steps ol {
+  padding-left: var(--spacing-lg);
+  margin-top: var(--spacing-sm);
+}
+
+.gcal-steps code {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.8125rem;
+  background: var(--bg-tertiary);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.gcal-status-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.gcal-status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.gcal-status-dot.connected {
+  background: var(--success);
+  box-shadow: 0 0 6px rgba(52, 199, 89, 0.5);
+}
+
+.gcal-connected,
+.gcal-connect {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* Checkbox group in forms */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-group input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.checkbox-group label {
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  cursor: pointer;
+}
