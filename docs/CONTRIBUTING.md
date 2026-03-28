@@ -13,9 +13,10 @@
 5. [Workflow de Desenvolvimento](#workflow-de-desenvolvimento)
 6. [Padrões de Código](#padrões-de-código)
 7. [Commits Semânticos](#commits-semânticos)
-8. [Pull Requests](#pull-requests)
-9. [Reportando Bugs](#reportando-bugs)
-10. [Sugerindo Features](#sugerindo-features)
+8. [Versionamento e Tags](#versionamento-e-tags)
+9. [Pull Requests](#pull-requests)
+10. [Reportando Bugs](#reportando-bugs)
+11. [Sugerindo Features](#sugerindo-features)
 
 ---
 
@@ -444,6 +445,60 @@ git commit -m "fix(notes): corrige busca que ignorava acentos"
 git commit -m "style(dashboard): ajusta espaçamento dos cards de stats"
 git commit -m "docs: atualiza guia de contribuição com novo padrão"
 git commit -m "chore: atualiza dependências do frontend"
+```
+
+---
+
+## Versionamento e Tags
+
+O projeto usa **Semantic Versioning** ([semver.org](https://semver.org)): `vMAJOR.MINOR.PATCH`
+
+| Segmento | Quando incrementar | Exemplo |
+|----------|--------------------|---------|
+| `MAJOR` | Mudança que quebra compatibilidade (ex: novo schema incompatível, redesign completo) | `v1.0.0` → `v2.0.0` |
+| `MINOR` | Nova funcionalidade adicionada de forma compatível (ex: novo módulo) | `v1.0.0` → `v1.1.0` |
+| `PATCH` | Correções, melhorias pequenas, atualizações de docs | `v1.0.0` → `v1.0.1` |
+
+### Histórico de Tags
+
+| Tag | Descrição |
+|-----|-----------|
+| `v1.0.0` | MVP completo — tarefas, notas, eventos, categorias, dashboard |
+| `v1.0.1` | Revisão completa da documentação |
+
+### Como criar uma tag
+
+As tags são criadas no `main` após um milestone relevante. Sempre use tags **anotadas** (com `-a`), não tags simples:
+
+```bash
+# Certifique-se de estar na main atualizada
+git checkout main
+git pull origin main
+
+# Cria a tag anotada
+git tag -a v1.1.0 -m "v1.1.0 - Descrição do que foi entregue"
+
+# Envia a tag para o repositório remoto
+git push origin v1.1.0
+
+# Para enviar todas as tags locais de uma vez
+git push origin --tags
+```
+
+### Quando criar uma tag
+
+- Ao concluir um conjunto de funcionalidades de um milestone (ex: fim da v2.0)
+- Após correções de bugs relevantes que mereçam um release formal
+- **Não crie tags** para commits intermediários de desenvolvimento
+
+### Verificando tags existentes
+
+```bash
+# Lista todas as tags em ordem
+git tag --list --sort=-version:refname
+
+# Detalhes de uma tag específica
+git show v1.0.1
 ```
 
 ---
