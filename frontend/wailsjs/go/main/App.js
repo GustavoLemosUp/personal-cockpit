@@ -346,8 +346,8 @@ export function GetWAChats() {
   return window['go']['main']['App']['GetWAChats']();
 }
 
-export function GetWAMessages(arg1, arg2) {
-  return window['go']['main']['App']['GetWAMessages'](arg1, arg2);
+export function GetWAMessages(arg1, arg2, arg3) {
+  return window['go']['main']['App']['GetWAMessages'](arg1, arg2, arg3);
 }
 
 export function GetWAScheduled() {
@@ -372,4 +372,116 @@ export function ScheduleWAMessage(arg1) {
 
 export function SendWAMessage(arg1, arg2) {
   return window['go']['main']['App']['SendWAMessage'](arg1, arg2);
+}
+
+export function CreateAccount(arg1) {
+  return window['go']['main']['App']['CreateAccount'](arg1);
+}
+
+export function GetAccounts() {
+  return window['go']['main']['App']['GetAccounts']();
+}
+
+export function UpdateAccount(arg1) {
+  return window['go']['main']['App']['UpdateAccount'](arg1);
+}
+
+export function DeleteAccount(arg1) {
+  return window['go']['main']['App']['DeleteAccount'](arg1);
+}
+
+export function CreateTransaction(arg1) {
+  return window['go']['main']['App']['CreateTransaction'](arg1);
+}
+
+export function GetTransactions(arg1) {
+  return window['go']['main']['App']['GetTransactions'](arg1);
+}
+
+export function DeleteTransaction(arg1) {
+  return window['go']['main']['App']['DeleteTransaction'](arg1);
+}
+
+export function CreateScheduledTransaction(arg1) {
+  return window['go']['main']['App']['CreateScheduledTransaction'](arg1);
+}
+
+export function GetScheduledTransactions() {
+  return window['go']['main']['App']['GetScheduledTransactions']();
+}
+
+export function ExecuteScheduledTransaction(arg1) {
+  return window['go']['main']['App']['ExecuteScheduledTransaction'](arg1);
+}
+
+export function DeleteScheduledTransaction(arg1) {
+  return window['go']['main']['App']['DeleteScheduledTransaction'](arg1);
+}
+
+export function GetFinanceSummary() {
+  return window['go']['main']['App']['GetFinanceSummary']();
+}
+
+export function CreateProduct(arg1) {
+  return window['go']['main']['App']['CreateProduct'](arg1);
+}
+
+export function GetProducts() {
+  return window['go']['main']['App']['GetProducts']();
+}
+
+export function UpdateProduct(arg1) {
+  return window['go']['main']['App']['UpdateProduct'](arg1);
+}
+
+export function DeleteProduct(arg1) {
+  return window['go']['main']['App']['DeleteProduct'](arg1);
+}
+
+export function GetLowStock() {
+  return window['go']['main']['App']['GetLowStock']();
+}
+
+export function AddStockMovement(arg1) {
+  return window['go']['main']['App']['AddStockMovement'](arg1);
+}
+
+export function GetStockMovements(arg1, arg2) {
+  return window['go']['main']['App']['GetStockMovements'](arg1, arg2);
+}
+
+export function CreateShoppingList(arg1) {
+  return window['go']['main']['App']['CreateShoppingList'](arg1);
+}
+
+export function GetShoppingLists() {
+  return window['go']['main']['App']['GetShoppingLists']();
+}
+
+export function GetShoppingListWithItems(arg1) {
+  return window['go']['main']['App']['GetShoppingListWithItems'](arg1);
+}
+
+export function DeleteShoppingList(arg1) {
+  return window['go']['main']['App']['DeleteShoppingList'](arg1);
+}
+
+export function AddShoppingItem(arg1) {
+  return window['go']['main']['App']['AddShoppingItem'](arg1);
+}
+
+export function GetShoppingItems(arg1) {
+  return window['go']['main']['App']['GetShoppingItems'](arg1);
+}
+
+export function ToggleShoppingItem(arg1) {
+  return window['go']['main']['App']['ToggleShoppingItem'](arg1);
+}
+
+export function UpdateShoppingItem(arg1) {
+  return window['go']['main']['App']['UpdateShoppingItem'](arg1);
+}
+
+export function DeleteShoppingItem(arg1) {
+  return window['go']['main']['App']['DeleteShoppingItem'](arg1);
 }

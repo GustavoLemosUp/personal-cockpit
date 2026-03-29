@@ -147,18 +147,20 @@ func (s *WhatsAppService) GetChats() ([]models.WAChat, error) {
 	return chats, nil
 }
 
-// GetMessages retorna as últimas N mensagens de uma conversa.
-func (s *WhatsAppService) GetMessages(chatJID string, limit int) ([]models.WAMessage, error) {
+// GetMessages retorna mensagens de uma conversa com paginação.
+// offset=0 retorna as mais recentes; offset>0 retorna mensagens mais antigas (scroll infinito).
+func (s *WhatsAppService) GetMessages(chatJID string, limit, offset int) ([]models.WAMessage, error) {
 	if limit <= 0 {
-		limit = 50
+		limit = 10
 	}
+	// Busca em ordem DESC (mais recentes primeiro) depois inverte para exibição cronológica.
 	rows, err := s.conn.Query(`
 		SELECT id, chat_jid, sender_jid, content, is_from_me, timestamp
 		FROM wa_messages
 		WHERE chat_jid = ?
-		ORDER BY timestamp ASC
-		LIMIT ?
-	`, chatJID, limit)
+		ORDER BY timestamp DESC
+		LIMIT ? OFFSET ?
+	`, chatJID, limit, offset)
 	if err != nil {
 		return nil, err
 	}
@@ -173,6 +175,10 @@ func (s *WhatsAppService) GetMessages(chatJID string, limit int) ([]models.WAMes
 		}
 		m.IsFromMe = isFromMe == 1
 		msgs = append(msgs, m)
+	}
+	// Inverte para ordem cronológica (mais antigas primeiro).
+	for i, j := 0, len(msgs)-1; i < j; i, j = i+1, j-1 {
+		msgs[i], msgs[j] = msgs[j], msgs[i]
 	}
 	return msgs, nil
 }

@@ -174,7 +174,7 @@ export function DisconnectWhatsApp():Promise<void>;
 
 export function GetWAChats():Promise<Array<models.WAChat>>;
 
-export function GetWAMessages(arg1:string,arg2:number):Promise<Array<models.WAMessage>>;
+export function GetWAMessages(arg1:string,arg2:number,arg3:number):Promise<Array<models.WAMessage>>;
 
 export function GetWAScheduled():Promise<Array<models.WAScheduled>>;
 
@@ -187,3 +187,39 @@ export function MarkWARead(arg1:string):Promise<void>;
 export function ScheduleWAMessage(arg1:models.WAScheduleInput):Promise<void>;
 
 export function SendWAMessage(arg1:string,arg2:string):Promise<void>;
+
+export function CreateAccount(arg1:models.Account):Promise<number>;
+export function GetAccounts():Promise<Array<models.Account>>;
+export function UpdateAccount(arg1:models.Account):Promise<void>;
+export function DeleteAccount(arg1:number):Promise<void>;
+
+export function CreateTransaction(arg1:models.Transaction):Promise<number>;
+export function GetTransactions(arg1:models.FinanceFilter):Promise<Array<models.Transaction>>;
+export function DeleteTransaction(arg1:number):Promise<void>;
+
+export function CreateScheduledTransaction(arg1:models.ScheduledTransaction):Promise<number>;
+export function GetScheduledTransactions():Promise<Array<models.ScheduledTransaction>>;
+export function ExecuteScheduledTransaction(arg1:number):Promise<void>;
+export function DeleteScheduledTransaction(arg1:number):Promise<void>;
+
+export function GetFinanceSummary():Promise<models.FinanceSummary>;
+
+export function CreateProduct(arg1:models.Product):Promise<number>;
+export function GetProducts():Promise<Array<models.Product>>;
+export function UpdateProduct(arg1:models.Product):Promise<void>;
+export function DeleteProduct(arg1:number):Promise<void>;
+export function GetLowStock():Promise<Array<models.StockAlert>>;
+
+export function AddStockMovement(arg1:models.StockMovement):Promise<number>;
+export function GetStockMovements(arg1:number,arg2:number):Promise<Array<models.StockMovement>>;
+
+export function CreateShoppingList(arg1:models.ShoppingList):Promise<number>;
+export function GetShoppingLists():Promise<Array<models.ShoppingList>>;
+export function GetShoppingListWithItems(arg1:number):Promise<models.ShoppingList>;
+export function DeleteShoppingList(arg1:number):Promise<void>;
+
+export function AddShoppingItem(arg1:models.ShoppingItem):Promise<number>;
+export function GetShoppingItems(arg1:number):Promise<Array<models.ShoppingItem>>;
+export function ToggleShoppingItem(arg1:number):Promise<void>;
+export function UpdateShoppingItem(arg1:models.ShoppingItem):Promise<void>;
+export function DeleteShoppingItem(arg1:number):Promise<void>;

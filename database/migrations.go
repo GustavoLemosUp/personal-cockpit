@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-const CurrentSchemaVersion = 4
+const CurrentSchemaVersion = 5
 
 func (db *DB) RunMigrations() error {
 
@@ -132,6 +132,23 @@ func (db *DB) executeMigrations(currentVersion int) error {
 				createWAMessagesTable,
 				createWAScheduledTable,
 				createWAIndexes,
+			},
+		},
+		// ═══════════════════════════════════════
+		// VERSÃO 5 - Finanças + Estoque
+		// ═══════════════════════════════════════
+		{
+			Version:     5,
+			Description: "Gestão financeira pessoal e controle de estoque doméstico",
+			SQL: []string{
+				createFinanceAccountsTable,
+				createFinanceTransactionsTable,
+				createFinanceScheduledTable,
+				createStockProductsTable,
+				createStockMovementsTable,
+				createShoppingListsTable,
+				createShoppingItemsTable,
+				createFinanceIndexes,
 			},
 		},
 	}
@@ -440,4 +457,119 @@ CREATE INDEX IF NOT EXISTS idx_task_comments_task ON task_comments(task_id);
 CREATE INDEX IF NOT EXISTS idx_task_activity_task ON task_activity(task_id);
 CREATE INDEX IF NOT EXISTS idx_tasks_board ON tasks(board_id);
 CREATE INDEX IF NOT EXISTS idx_tasks_column ON tasks(column_id);
+`
+
+// ═══════════════════════════════════════════════════════════
+// MIGRATIONS - VERSÃO 5 — Finanças + Estoque
+// ═══════════════════════════════════════════════════════════
+
+const createFinanceAccountsTable = `
+CREATE TABLE IF NOT EXISTS finance_accounts (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    name        TEXT NOT NULL,
+    type        TEXT NOT NULL DEFAULT 'checking',
+    balance     REAL NOT NULL DEFAULT 0,
+    currency    TEXT NOT NULL DEFAULT 'BRL',
+    color       TEXT NOT NULL DEFAULT '#6b7280',
+    icon        TEXT NOT NULL DEFAULT '',
+    description TEXT NOT NULL DEFAULT '',
+    is_active   INTEGER NOT NULL DEFAULT 1,
+    created_at  DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at  DATETIME DEFAULT CURRENT_TIMESTAMP
+);`
+
+const createFinanceTransactionsTable = `
+CREATE TABLE IF NOT EXISTS finance_transactions (
+    id               INTEGER PRIMARY KEY AUTOINCREMENT,
+    account_id       INTEGER NOT NULL REFERENCES finance_accounts(id) ON DELETE CASCADE,
+    to_account_id    INTEGER REFERENCES finance_accounts(id),
+    type             TEXT NOT NULL,
+    category         TEXT NOT NULL DEFAULT '',
+    description      TEXT NOT NULL DEFAULT '',
+    amount           REAL NOT NULL,
+    date             DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_recurring     INTEGER NOT NULL DEFAULT 0,
+    recurrence_rule  TEXT NOT NULL DEFAULT '',
+    tags             TEXT NOT NULL DEFAULT '',
+    created_at       DATETIME DEFAULT CURRENT_TIMESTAMP
+);`
+
+const createFinanceScheduledTable = `
+CREATE TABLE IF NOT EXISTS finance_scheduled (
+    id               INTEGER PRIMARY KEY AUTOINCREMENT,
+    account_id       INTEGER NOT NULL REFERENCES finance_accounts(id) ON DELETE CASCADE,
+    type             TEXT NOT NULL,
+    category         TEXT NOT NULL DEFAULT '',
+    description      TEXT NOT NULL DEFAULT '',
+    amount           REAL NOT NULL,
+    scheduled_at     DATETIME NOT NULL,
+    is_recurring     INTEGER NOT NULL DEFAULT 0,
+    recurrence_rule  TEXT NOT NULL DEFAULT '',
+    is_executed      INTEGER NOT NULL DEFAULT 0,
+    created_at       DATETIME DEFAULT CURRENT_TIMESTAMP
+);`
+
+const createStockProductsTable = `
+CREATE TABLE IF NOT EXISTS stock_products (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    name          TEXT NOT NULL,
+    category      TEXT NOT NULL DEFAULT '',
+    unit          TEXT NOT NULL DEFAULT 'un',
+    min_quantity  REAL NOT NULL DEFAULT 0,
+    current_stock REAL NOT NULL DEFAULT 0,
+    price         REAL NOT NULL DEFAULT 0,
+    notes         TEXT NOT NULL DEFAULT '',
+    is_active     INTEGER NOT NULL DEFAULT 1,
+    created_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at    DATETIME DEFAULT CURRENT_TIMESTAMP
+);`
+
+const createStockMovementsTable = `
+CREATE TABLE IF NOT EXISTS stock_movements (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_id  INTEGER NOT NULL REFERENCES stock_products(id) ON DELETE CASCADE,
+    type        TEXT NOT NULL,
+    quantity    REAL NOT NULL,
+    price       REAL NOT NULL DEFAULT 0,
+    notes       TEXT NOT NULL DEFAULT '',
+    date        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at  DATETIME DEFAULT CURRENT_TIMESTAMP
+);`
+
+const createShoppingListsTable = `
+CREATE TABLE IF NOT EXISTS shopping_lists (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    name         TEXT NOT NULL,
+    month        TEXT NOT NULL DEFAULT '',
+    description  TEXT NOT NULL DEFAULT '',
+    is_completed INTEGER NOT NULL DEFAULT 0,
+    total_budget REAL NOT NULL DEFAULT 0,
+    total_spent  REAL NOT NULL DEFAULT 0,
+    created_at   DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at   DATETIME DEFAULT CURRENT_TIMESTAMP
+);`
+
+const createShoppingItemsTable = `
+CREATE TABLE IF NOT EXISTS shopping_items (
+    id               INTEGER PRIMARY KEY AUTOINCREMENT,
+    shopping_list_id INTEGER NOT NULL REFERENCES shopping_lists(id) ON DELETE CASCADE,
+    product_id       INTEGER REFERENCES stock_products(id),
+    name             TEXT NOT NULL,
+    quantity         REAL NOT NULL DEFAULT 1,
+    unit             TEXT NOT NULL DEFAULT 'un',
+    estimated_price  REAL NOT NULL DEFAULT 0,
+    actual_price     REAL NOT NULL DEFAULT 0,
+    category         TEXT NOT NULL DEFAULT '',
+    is_bought        INTEGER NOT NULL DEFAULT 0,
+    notes            TEXT NOT NULL DEFAULT '',
+    created_at       DATETIME DEFAULT CURRENT_TIMESTAMP
+);`
+
+const createFinanceIndexes = `
+CREATE INDEX IF NOT EXISTS idx_finance_tx_account ON finance_transactions(account_id);
+CREATE INDEX IF NOT EXISTS idx_finance_tx_date ON finance_transactions(date);
+CREATE INDEX IF NOT EXISTS idx_finance_tx_type ON finance_transactions(type);
+CREATE INDEX IF NOT EXISTS idx_finance_scheduled_account ON finance_scheduled(account_id);
+CREATE INDEX IF NOT EXISTS idx_stock_movements_product ON stock_movements(product_id);
+CREATE INDEX IF NOT EXISTS idx_shopping_items_list ON shopping_items(shopping_list_id);
 `

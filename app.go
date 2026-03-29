@@ -28,6 +28,8 @@ type App struct {
 	kanbanService    *services.KanbanService
 	calendarService  *services.CalendarService
 	whatsappService  *services.WhatsAppService
+	financeService   *services.FinanceService
+	stockService     *services.StockService
 }
 
 func NewApp() *App {
@@ -75,6 +77,9 @@ func (a *App) startup(ctx context.Context) {
 			wailsruntime.EventsEmit(a.ctx, "whatsapp:message", msg)
 		})
 	}
+
+	a.financeService = services.NewFinanceService(conn)
+	a.stockService = services.NewStockService(conn)
 
 	fmt.Println("✅ App inicializado com sucesso!")
 }
@@ -302,12 +307,13 @@ func (a *App) GetWAChats() ([]models.WAChat, error) {
 	return a.whatsappService.GetChats()
 }
 
-// GetWAMessages retorna as mensagens de uma conversa.
-func (a *App) GetWAMessages(chatJID string, limit int) ([]models.WAMessage, error) {
+// GetWAMessages retorna as mensagens de uma conversa com paginação.
+// offset=0 retorna as mais recentes; use offset>0 para carregar mensagens mais antigas.
+func (a *App) GetWAMessages(chatJID string, limit, offset int) ([]models.WAMessage, error) {
 	if a.whatsappService == nil {
 		return nil, fmt.Errorf("serviço WhatsApp não disponível")
 	}
-	return a.whatsappService.GetMessages(chatJID, limit)
+	return a.whatsappService.GetMessages(chatJID, limit, offset)
 }
 
 // MarkWARead zera o contador de não lidas de uma conversa.
@@ -633,4 +639,124 @@ func (a *App) SyncTaskToCalendar(taskID, profileID int) error {
 // DeleteFromCalendar removes an event from Google Calendar by its google_event_id.
 func (a *App) DeleteFromCalendar(profileID int, googleEventID string) error {
 	return a.calendarService.DeleteCalendarEvent(profileID, googleEventID)
+}
+
+// ═══════════════════════════════════════════════════════════
+// FINANCE METHODS
+// ═══════════════════════════════════════════════════════════
+
+func (a *App) CreateAccount(acc models.Account) (int64, error) {
+	return a.financeService.CreateAccount(acc)
+}
+
+func (a *App) GetAccounts() ([]models.Account, error) {
+	return a.financeService.GetAccounts()
+}
+
+func (a *App) UpdateAccount(acc models.Account) error {
+	return a.financeService.UpdateAccount(acc)
+}
+
+func (a *App) DeleteAccount(id int) error {
+	return a.financeService.DeleteAccount(id)
+}
+
+func (a *App) CreateTransaction(t models.Transaction) (int64, error) {
+	return a.financeService.CreateTransaction(t)
+}
+
+func (a *App) GetTransactions(filter models.FinanceFilter) ([]models.Transaction, error) {
+	return a.financeService.GetTransactions(filter)
+}
+
+func (a *App) DeleteTransaction(id int) error {
+	return a.financeService.DeleteTransaction(id)
+}
+
+func (a *App) CreateScheduledTransaction(st models.ScheduledTransaction) (int64, error) {
+	return a.financeService.CreateScheduled(st)
+}
+
+func (a *App) GetScheduledTransactions() ([]models.ScheduledTransaction, error) {
+	return a.financeService.GetScheduled()
+}
+
+func (a *App) ExecuteScheduledTransaction(id int) error {
+	return a.financeService.ExecuteScheduled(id)
+}
+
+func (a *App) DeleteScheduledTransaction(id int) error {
+	return a.financeService.DeleteScheduled(id)
+}
+
+func (a *App) GetFinanceSummary() (*models.FinanceSummary, error) {
+	return a.financeService.GetSummary()
+}
+
+// ═══════════════════════════════════════════════════════════
+// STOCK METHODS
+// ═══════════════════════════════════════════════════════════
+
+func (a *App) CreateProduct(p models.Product) (int64, error) {
+	return a.stockService.CreateProduct(p)
+}
+
+func (a *App) GetProducts() ([]models.Product, error) {
+	return a.stockService.GetProducts()
+}
+
+func (a *App) UpdateProduct(p models.Product) error {
+	return a.stockService.UpdateProduct(p)
+}
+
+func (a *App) DeleteProduct(id int) error {
+	return a.stockService.DeleteProduct(id)
+}
+
+func (a *App) GetLowStock() ([]models.StockAlert, error) {
+	return a.stockService.GetLowStock()
+}
+
+func (a *App) AddStockMovement(m models.StockMovement) (int64, error) {
+	return a.stockService.AddMovement(m)
+}
+
+func (a *App) GetStockMovements(productID, limit int) ([]models.StockMovement, error) {
+	return a.stockService.GetMovements(productID, limit)
+}
+
+func (a *App) CreateShoppingList(sl models.ShoppingList) (int64, error) {
+	return a.stockService.CreateShoppingList(sl)
+}
+
+func (a *App) GetShoppingLists() ([]models.ShoppingList, error) {
+	return a.stockService.GetShoppingLists()
+}
+
+func (a *App) GetShoppingListWithItems(id int) (*models.ShoppingList, error) {
+	return a.stockService.GetShoppingListWithItems(id)
+}
+
+func (a *App) DeleteShoppingList(id int) error {
+	return a.stockService.DeleteShoppingList(id)
+}
+
+func (a *App) AddShoppingItem(item models.ShoppingItem) (int64, error) {
+	return a.stockService.AddShoppingItem(item)
+}
+
+func (a *App) GetShoppingItems(listID int) ([]models.ShoppingItem, error) {
+	return a.stockService.GetShoppingItems(listID)
+}
+
+func (a *App) ToggleShoppingItem(id int) error {
+	return a.stockService.ToggleShoppingItem(id)
+}
+
+func (a *App) UpdateShoppingItem(item models.ShoppingItem) error {
+	return a.stockService.UpdateShoppingItem(item)
+}
+
+func (a *App) DeleteShoppingItem(id int) error {
+	return a.stockService.DeleteShoppingItem(id)
 }
