@@ -205,6 +205,186 @@ export namespace models {
 	        this.CategoryID = source["CategoryID"];
 	    }
 	}
+	export class WAChat {
+	    jid: string;
+	    name: string;
+	    last_message: string;
+	    // Go type: time
+	    last_message_at: any;
+	    unread_count: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new WAChat(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.jid = source["jid"];
+	        this.name = source["name"];
+	        this.last_message = source["last_message"];
+	        this.last_message_at = this.convertValues(source["last_message_at"], null);
+	        this.unread_count = source["unread_count"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class WAMessage {
+	    id: string;
+	    chat_jid: string;
+	    sender_jid: string;
+	    content: string;
+	    is_from_me: boolean;
+	    // Go type: time
+	    timestamp: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new WAMessage(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.chat_jid = source["chat_jid"];
+	        this.sender_jid = source["sender_jid"];
+	        this.content = source["content"];
+	        this.is_from_me = source["is_from_me"];
+	        this.timestamp = this.convertValues(source["timestamp"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class WAScheduleInput {
+	    chat_jid: string;
+	    chat_name: string;
+	    content: string;
+	    // Go type: time
+	    scheduled_at: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new WAScheduleInput(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.chat_jid = source["chat_jid"];
+	        this.chat_name = source["chat_name"];
+	        this.content = source["content"];
+	        this.scheduled_at = this.convertValues(source["scheduled_at"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class WAScheduled {
+	    id: number;
+	    chat_jid: string;
+	    chat_name: string;
+	    content: string;
+	    // Go type: time
+	    scheduled_at: any;
+	    sent: boolean;
+	    // Go type: time
+	    created_at: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new WAScheduled(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.chat_jid = source["chat_jid"];
+	        this.chat_name = source["chat_name"];
+	        this.content = source["content"];
+	        this.scheduled_at = this.convertValues(source["scheduled_at"], null);
+	        this.sent = source["sent"];
+	        this.created_at = this.convertValues(source["created_at"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+
+}
+
+export namespace services {
+	
+	export class WAStatusInfo {
+	    status: string;
+	    phone: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new WAStatusInfo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.status = source["status"];
+	        this.phone = source["phone"];
+	    }
+	}
 
 }
 

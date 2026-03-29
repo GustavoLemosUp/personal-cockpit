@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-const CurrentSchemaVersion = 1
+const CurrentSchemaVersion = 2
 
 func (db *DB) RunMigrations() error {
 
@@ -81,6 +81,19 @@ func (db *DB) executeMigrations(currentVersion int) error {
 				createSettingsTable,
 				createIndexes,
 				createTriggers,
+			},
+		},
+		// ═══════════════════════════════════════
+		// VERSÃO 2 - WhatsApp
+		// ═══════════════════════════════════════
+		{
+			Version:     2,
+			Description: "Tabelas de conversas, mensagens e agendamentos WhatsApp",
+			SQL: []string{
+				createWAChatsTable,
+				createWAMessagesTable,
+				createWAScheduledTable,
+				createWAIndexes,
 			},
 		},
 	}
@@ -180,6 +193,49 @@ CREATE INDEX IF NOT EXISTS idx_tasks_category ON tasks(category_id);
 CREATE INDEX IF NOT EXISTS idx_tasks_due_date ON tasks(due_date);
 CREATE INDEX IF NOT EXISTS idx_notes_category ON notes(category_id);
 CREATE INDEX IF NOT EXISTS idx_events_start_date ON events(start_date);
+`
+
+// ═══════════════════════════════════════════════════════════
+// MIGRATIONS - VERSÃO 2 (WhatsApp)
+// ═══════════════════════════════════════════════════════════
+
+const createWAChatsTable = `
+CREATE TABLE IF NOT EXISTS wa_chats (
+    jid TEXT PRIMARY KEY,
+    name TEXT NOT NULL DEFAULT '',
+    last_message TEXT DEFAULT '',
+    last_message_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    unread_count INTEGER DEFAULT 0
+);
+`
+
+const createWAMessagesTable = `
+CREATE TABLE IF NOT EXISTS wa_messages (
+    id TEXT PRIMARY KEY,
+    chat_jid TEXT NOT NULL,
+    sender_jid TEXT DEFAULT '',
+    content TEXT NOT NULL,
+    is_from_me INTEGER DEFAULT 0,
+    timestamp DATETIME NOT NULL,
+    FOREIGN KEY (chat_jid) REFERENCES wa_chats(jid) ON DELETE CASCADE
+);
+`
+
+const createWAScheduledTable = `
+CREATE TABLE IF NOT EXISTS wa_scheduled (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    chat_jid TEXT NOT NULL,
+    chat_name TEXT DEFAULT '',
+    content TEXT NOT NULL,
+    scheduled_at DATETIME NOT NULL,
+    sent INTEGER DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+`
+
+const createWAIndexes = `
+CREATE INDEX IF NOT EXISTS idx_wa_messages_chat ON wa_messages(chat_jid, timestamp);
+CREATE INDEX IF NOT EXISTS idx_wa_scheduled_pending ON wa_scheduled(scheduled_at, sent);
 `
 
 const createTriggers = `

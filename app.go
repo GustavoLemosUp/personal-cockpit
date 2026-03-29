@@ -7,6 +7,8 @@ import (
 	"personal-cockpit/database"
 	"personal-cockpit/models"
 	"personal-cockpit/services"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -15,10 +17,11 @@ type App struct {
 	db  *database.DB
 
 	// Services
-	taskService     *services.TaskService
-	noteService     *services.NoteService
-	eventService    *services.EventService
-	categoryService *services.CategoryService
+	taskService      *services.TaskService
+	noteService      *services.NoteService
+	eventService     *services.EventService
+	categoryService  *services.CategoryService
+	whatsappService  *services.WhatsAppService
 }
 
 func NewApp() *App {
@@ -43,6 +46,23 @@ func (a *App) startup(ctx context.Context) {
 	a.eventService = services.NewEventService(conn)
 	a.categoryService = services.NewCategoryService(conn)
 
+	// Inicializar serviço do WhatsApp
+	waSvc, err := services.NewWhatsAppService(conn)
+	if err != nil {
+		fmt.Println("⚠️ WhatsApp service não pôde ser iniciado:", err)
+	} else {
+		a.whatsappService = waSvc
+		a.whatsappService.SetOnQR(func(qrBase64 string) {
+			runtime.EventsEmit(a.ctx, "whatsapp:qr", qrBase64)
+		})
+		a.whatsappService.SetOnStatus(func(status services.WAStatus) {
+			runtime.EventsEmit(a.ctx, "whatsapp:status", string(status))
+		})
+		a.whatsappService.SetOnMessage(func(msg models.WAMessage) {
+			runtime.EventsEmit(a.ctx, "whatsapp:message", msg)
+		})
+	}
+
 	fmt.Println("✅ App inicializado com sucesso!")
 }
 
@@ -51,6 +71,9 @@ func (a App) domReady(ctx context.Context) {
 }
 
 func (a *App) beforeClose(ctx context.Context) (prevent bool) {
+	if a.whatsappService != nil {
+		a.whatsappService.Disconnect()
+	}
 	if a.db != nil {
 		a.db.Close()
 	}
@@ -215,6 +238,102 @@ func (a *App) GetAppInfo() map[string]string {
 
 func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Olá %s! Bem-vindo ao Personal Cockpit v%s", name, GetFullVersion())
+}
+
+// ═══════════════════════════════════════════════════════════
+// THEME METHODS
+// ═══════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════
+// WHATSAPP METHODS
+// ═══════════════════════════════════════════════════════════
+
+// ConnectWhatsApp inicia a conexão. Se não houver sessão salva, eventos
+// "whatsapp:qr" são emitidos ao frontend para exibição do QR code.
+func (a *App) ConnectWhatsApp() error {
+	if a.whatsappService == nil {
+		return fmt.Errorf("serviço WhatsApp não disponível")
+	}
+	return a.whatsappService.Connect(a.ctx)
+}
+
+// DisconnectWhatsApp encerra a conexão de rede (sessão permanece salva).
+func (a *App) DisconnectWhatsApp() {
+	if a.whatsappService != nil {
+		a.whatsappService.Disconnect()
+	}
+}
+
+// LogoutWhatsApp encerra a sessão e apaga os dados salvos (exige novo QR).
+func (a *App) LogoutWhatsApp() error {
+	if a.whatsappService == nil {
+		return fmt.Errorf("serviço WhatsApp não disponível")
+	}
+	return a.whatsappService.Logout(a.ctx)
+}
+
+// GetWhatsAppStatus retorna o estado atual da conexão.
+func (a *App) GetWhatsAppStatus() services.WAStatusInfo {
+	if a.whatsappService == nil {
+		return services.WAStatusInfo{Status: services.WADisconnected}
+	}
+	return a.whatsappService.GetStatus()
+}
+
+// GetWAChats retorna todas as conversas.
+func (a *App) GetWAChats() ([]models.WAChat, error) {
+	if a.whatsappService == nil {
+		return nil, fmt.Errorf("serviço WhatsApp não disponível")
+	}
+	return a.whatsappService.GetChats()
+}
+
+// GetWAMessages retorna as mensagens de uma conversa.
+func (a *App) GetWAMessages(chatJID string, limit int) ([]models.WAMessage, error) {
+	if a.whatsappService == nil {
+		return nil, fmt.Errorf("serviço WhatsApp não disponível")
+	}
+	return a.whatsappService.GetMessages(chatJID, limit)
+}
+
+// MarkWARead zera o contador de não lidas de uma conversa.
+func (a *App) MarkWARead(chatJID string) error {
+	if a.whatsappService == nil {
+		return nil
+	}
+	return a.whatsappService.MarkAsRead(chatJID)
+}
+
+// SendWAMessage envia uma mensagem de texto.
+func (a *App) SendWAMessage(chatJID, text string) error {
+	if a.whatsappService == nil {
+		return fmt.Errorf("serviço WhatsApp não disponível")
+	}
+	return a.whatsappService.SendTextMessage(a.ctx, chatJID, text)
+}
+
+// ScheduleWAMessage agenda um envio para o futuro.
+func (a *App) ScheduleWAMessage(input models.WAScheduleInput) error {
+	if a.whatsappService == nil {
+		return fmt.Errorf("serviço WhatsApp não disponível")
+	}
+	return a.whatsappService.ScheduleMessage(input)
+}
+
+// GetWAScheduled retorna os agendamentos pendentes.
+func (a *App) GetWAScheduled() ([]models.WAScheduled, error) {
+	if a.whatsappService == nil {
+		return nil, fmt.Errorf("serviço WhatsApp não disponível")
+	}
+	return a.whatsappService.GetScheduled()
+}
+
+// DeleteWAScheduled cancela um agendamento.
+func (a *App) DeleteWAScheduled(id int) error {
+	if a.whatsappService == nil {
+		return nil
+	}
+	return a.whatsappService.DeleteScheduled(id)
 }
 
 // ═══════════════════════════════════════════════════════════

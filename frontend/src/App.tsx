@@ -5,7 +5,8 @@ import { Dashboard } from './components/Dashboard';
 import { TasksPage } from './components/tasks/TasksPage';
 import { NotesPage } from './components/notes/NotesPage';
 import { EventsPage } from './components/events/EventsPage';  // ← ADICIONAR
-import { CategoriesPage } from './components/categories/CategoriesPage';  // ← ADICIONAR
+import { CategoriesPage } from './components/categories/CategoriesPage';
+import { WhatsAppPage } from './components/whatsapp/WhatsAppPage';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('dashboard');
@@ -21,7 +22,9 @@ function App() {
       case 'events':
         return <EventsPage />;  // ← USAR
       case 'categories':
-        return <CategoriesPage />;  // ← USAR
+        return <CategoriesPage />;
+      case 'whatsapp':
+        return <WhatsAppPage />;
       default:
         return <Dashboard />;
     }

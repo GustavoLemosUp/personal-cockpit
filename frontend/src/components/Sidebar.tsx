@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTheme } from '../hooks/useTheme';
 import logo from '../assets/images/logo.png';
 
@@ -17,6 +17,7 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
     { id: 'notes', label: 'Notas', icon: '◐' },
     { id: 'events', label: 'Eventos', icon: '◷' },
     { id: 'categories', label: 'Categorias', icon: '◈' },
+    { id: 'whatsapp', label: 'WhatsApp', icon: '◉' },
   ];
 
   return (
