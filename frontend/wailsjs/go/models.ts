@@ -1,5 +1,91 @@
 export namespace models {
 	
+	export class Account {
+	    id: number;
+	    name: string;
+	    type: string;
+	    balance: number;
+	    currency: string;
+	    color: string;
+	    icon: string;
+	    description: string;
+	    is_active: boolean;
+	    // Go type: time
+	    created_at: any;
+	    // Go type: time
+	    updated_at: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new Account(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.name = source["name"];
+	        this.type = source["type"];
+	        this.balance = source["balance"];
+	        this.currency = source["currency"];
+	        this.color = source["color"];
+	        this.icon = source["icon"];
+	        this.description = source["description"];
+	        this.is_active = source["is_active"];
+	        this.created_at = this.convertValues(source["created_at"], null);
+	        this.updated_at = this.convertValues(source["updated_at"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class AccountBalance {
+	    account: Account;
+	    income: number;
+	    expense: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new AccountBalance(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.account = this.convertValues(source["account"], Account);
+	        this.income = source["income"];
+	        this.expense = source["expense"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 	export class KanbanColumn {
 	    id: number;
 	    board_id: number;
@@ -199,6 +285,126 @@ export namespace models {
 		    return a;
 		}
 	}
+	export class FinanceFilter {
+	    account_id?: number;
+	    type: string;
+	    category: string;
+	    date_from: string;
+	    date_to: string;
+	    limit: number;
+	    offset: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new FinanceFilter(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.account_id = source["account_id"];
+	        this.type = source["type"];
+	        this.category = source["category"];
+	        this.date_from = source["date_from"];
+	        this.date_to = source["date_to"];
+	        this.limit = source["limit"];
+	        this.offset = source["offset"];
+	    }
+	}
+	export class Transaction {
+	    id: number;
+	    account_id: number;
+	    account_name?: string;
+	    to_account_id?: number;
+	    to_account_name?: string;
+	    type: string;
+	    category: string;
+	    description: string;
+	    amount: number;
+	    // Go type: time
+	    date: any;
+	    is_recurring: boolean;
+	    recurrence_rule: string;
+	    tags: string;
+	    // Go type: time
+	    created_at: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new Transaction(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.account_id = source["account_id"];
+	        this.account_name = source["account_name"];
+	        this.to_account_id = source["to_account_id"];
+	        this.to_account_name = source["to_account_name"];
+	        this.type = source["type"];
+	        this.category = source["category"];
+	        this.description = source["description"];
+	        this.amount = source["amount"];
+	        this.date = this.convertValues(source["date"], null);
+	        this.is_recurring = source["is_recurring"];
+	        this.recurrence_rule = source["recurrence_rule"];
+	        this.tags = source["tags"];
+	        this.created_at = this.convertValues(source["created_at"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class FinanceSummary {
+	    total_balance: number;
+	    total_income: number;
+	    total_expense: number;
+	    accounts: AccountBalance[];
+	    recent_transactions: Transaction[];
+	
+	    static createFrom(source: any = {}) {
+	        return new FinanceSummary(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.total_balance = source["total_balance"];
+	        this.total_income = source["total_income"];
+	        this.total_expense = source["total_expense"];
+	        this.accounts = this.convertValues(source["accounts"], AccountBalance);
+	        this.recent_transactions = this.convertValues(source["recent_transactions"], Transaction);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 	
 	export class Label {
 	    id: number;
@@ -262,6 +468,58 @@ export namespace models {
 		    return a;
 		}
 	}
+	export class Product {
+	    id: number;
+	    name: string;
+	    category: string;
+	    unit: string;
+	    min_quantity: number;
+	    current_stock: number;
+	    price: number;
+	    notes: string;
+	    is_active: boolean;
+	    // Go type: time
+	    created_at: any;
+	    // Go type: time
+	    updated_at: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new Product(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.name = source["name"];
+	        this.category = source["category"];
+	        this.unit = source["unit"];
+	        this.min_quantity = source["min_quantity"];
+	        this.current_stock = source["current_stock"];
+	        this.price = source["price"];
+	        this.notes = source["notes"];
+	        this.is_active = source["is_active"];
+	        this.created_at = this.convertValues(source["created_at"], null);
+	        this.updated_at = this.convertValues(source["updated_at"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 	export class ProfileSummary {
 	    id: number;
 	    name: string;
@@ -288,6 +546,243 @@ export namespace models {
 	        this.google_calendar_id = source["google_calendar_id"];
 	        this.has_google_token = source["has_google_token"];
 	        this.has_pin = source["has_pin"];
+	        this.created_at = this.convertValues(source["created_at"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class ScheduledTransaction {
+	    id: number;
+	    account_id: number;
+	    account_name?: string;
+	    type: string;
+	    category: string;
+	    description: string;
+	    amount: number;
+	    // Go type: time
+	    scheduled_at: any;
+	    is_recurring: boolean;
+	    recurrence_rule: string;
+	    is_executed: boolean;
+	    // Go type: time
+	    created_at: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new ScheduledTransaction(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.account_id = source["account_id"];
+	        this.account_name = source["account_name"];
+	        this.type = source["type"];
+	        this.category = source["category"];
+	        this.description = source["description"];
+	        this.amount = source["amount"];
+	        this.scheduled_at = this.convertValues(source["scheduled_at"], null);
+	        this.is_recurring = source["is_recurring"];
+	        this.recurrence_rule = source["recurrence_rule"];
+	        this.is_executed = source["is_executed"];
+	        this.created_at = this.convertValues(source["created_at"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class ShoppingItem {
+	    id: number;
+	    shopping_list_id: number;
+	    product_id?: number;
+	    name: string;
+	    quantity: number;
+	    unit: string;
+	    estimated_price: number;
+	    actual_price: number;
+	    category: string;
+	    is_bought: boolean;
+	    notes: string;
+	    // Go type: time
+	    created_at: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new ShoppingItem(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.shopping_list_id = source["shopping_list_id"];
+	        this.product_id = source["product_id"];
+	        this.name = source["name"];
+	        this.quantity = source["quantity"];
+	        this.unit = source["unit"];
+	        this.estimated_price = source["estimated_price"];
+	        this.actual_price = source["actual_price"];
+	        this.category = source["category"];
+	        this.is_bought = source["is_bought"];
+	        this.notes = source["notes"];
+	        this.created_at = this.convertValues(source["created_at"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class ShoppingList {
+	    id: number;
+	    name: string;
+	    month: string;
+	    description: string;
+	    is_completed: boolean;
+	    total_budget: number;
+	    total_spent: number;
+	    items?: ShoppingItem[];
+	    // Go type: time
+	    created_at: any;
+	    // Go type: time
+	    updated_at: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new ShoppingList(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.name = source["name"];
+	        this.month = source["month"];
+	        this.description = source["description"];
+	        this.is_completed = source["is_completed"];
+	        this.total_budget = source["total_budget"];
+	        this.total_spent = source["total_spent"];
+	        this.items = this.convertValues(source["items"], ShoppingItem);
+	        this.created_at = this.convertValues(source["created_at"], null);
+	        this.updated_at = this.convertValues(source["updated_at"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class StockAlert {
+	    product: Product;
+	    deficit: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new StockAlert(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.product = this.convertValues(source["product"], Product);
+	        this.deficit = source["deficit"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class StockMovement {
+	    id: number;
+	    product_id: number;
+	    product_name?: string;
+	    type: string;
+	    quantity: number;
+	    price: number;
+	    notes: string;
+	    // Go type: time
+	    date: any;
+	    // Go type: time
+	    created_at: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new StockMovement(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.product_id = source["product_id"];
+	        this.product_name = source["product_name"];
+	        this.type = source["type"];
+	        this.quantity = source["quantity"];
+	        this.price = source["price"];
+	        this.notes = source["notes"];
+	        this.date = this.convertValues(source["date"], null);
 	        this.created_at = this.convertValues(source["created_at"], null);
 	    }
 	
@@ -563,6 +1058,7 @@ export namespace models {
 	        this.ColumnID = source["ColumnID"];
 	    }
 	}
+	
 	export class WAChat {
 	    jid: string;
 	    name: string;
@@ -727,280 +1223,8 @@ export namespace models {
 
 }
 
-// ─── Finance models ─────────────────────────────────────────────────────────
-
-export namespace models {
-
-	export class Account {
-	    id: number;
-	    name: string;
-	    type: string;
-	    balance: number;
-	    currency: string;
-	    color: string;
-	    icon: string;
-	    description: string;
-	    is_active: boolean;
-	    created_at: any;
-	    updated_at: any;
-
-	    static createFrom(source: any = {}) { return new Account(source); }
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.id = source["id"];
-	        this.name = source["name"];
-	        this.type = source["type"];
-	        this.balance = source["balance"];
-	        this.currency = source["currency"] || "BRL";
-	        this.color = source["color"] || "#6b7280";
-	        this.icon = source["icon"] || "";
-	        this.description = source["description"] || "";
-	        this.is_active = source["is_active"];
-	        this.created_at = source["created_at"];
-	        this.updated_at = source["updated_at"];
-	    }
-	}
-
-	export class Transaction {
-	    id: number;
-	    account_id: number;
-	    account_name: string;
-	    to_account_id?: number;
-	    to_account_name?: string;
-	    type: string;
-	    category: string;
-	    description: string;
-	    amount: number;
-	    date: any;
-	    is_recurring: boolean;
-	    recurrence_rule: string;
-	    tags: string;
-	    created_at: any;
-
-	    static createFrom(source: any = {}) { return new Transaction(source); }
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.id = source["id"];
-	        this.account_id = source["account_id"];
-	        this.account_name = source["account_name"] || "";
-	        this.to_account_id = source["to_account_id"];
-	        this.to_account_name = source["to_account_name"] || "";
-	        this.type = source["type"];
-	        this.category = source["category"] || "";
-	        this.description = source["description"] || "";
-	        this.amount = source["amount"];
-	        this.date = source["date"];
-	        this.is_recurring = source["is_recurring"] || false;
-	        this.recurrence_rule = source["recurrence_rule"] || "";
-	        this.tags = source["tags"] || "";
-	        this.created_at = source["created_at"];
-	    }
-	}
-
-	export class ScheduledTransaction {
-	    id: number;
-	    account_id: number;
-	    account_name: string;
-	    type: string;
-	    category: string;
-	    description: string;
-	    amount: number;
-	    scheduled_at: any;
-	    is_recurring: boolean;
-	    recurrence_rule: string;
-	    is_executed: boolean;
-	    created_at: any;
-
-	    static createFrom(source: any = {}) { return new ScheduledTransaction(source); }
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.id = source["id"];
-	        this.account_id = source["account_id"];
-	        this.account_name = source["account_name"] || "";
-	        this.type = source["type"];
-	        this.category = source["category"] || "";
-	        this.description = source["description"] || "";
-	        this.amount = source["amount"];
-	        this.scheduled_at = source["scheduled_at"];
-	        this.is_recurring = source["is_recurring"] || false;
-	        this.recurrence_rule = source["recurrence_rule"] || "";
-	        this.is_executed = source["is_executed"] || false;
-	        this.created_at = source["created_at"];
-	    }
-	}
-
-	export class FinanceSummary {
-	    total_balance: number;
-	    total_income: number;
-	    total_expense: number;
-	    accounts: any[];
-	    recent_transactions: Transaction[];
-
-	    static createFrom(source: any = {}) { return new FinanceSummary(source); }
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.total_balance = source["total_balance"] || 0;
-	        this.total_income = source["total_income"] || 0;
-	        this.total_expense = source["total_expense"] || 0;
-	        this.accounts = source["accounts"] || [];
-	        this.recent_transactions = source["recent_transactions"] || [];
-	    }
-	}
-
-	export class FinanceFilter {
-	    account_id?: number;
-	    type?: string;
-	    category?: string;
-	    date_from?: string;
-	    date_to?: string;
-	    limit?: number;
-	    offset?: number;
-
-	    static createFrom(source: any = {}) { return new FinanceFilter(source); }
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.account_id = source["account_id"];
-	        this.type = source["type"] || "";
-	        this.category = source["category"] || "";
-	        this.date_from = source["date_from"] || "";
-	        this.date_to = source["date_to"] || "";
-	        this.limit = source["limit"] || 50;
-	        this.offset = source["offset"] || 0;
-	    }
-	}
-
-	export class Product {
-	    id: number;
-	    name: string;
-	    category: string;
-	    unit: string;
-	    min_quantity: number;
-	    current_stock: number;
-	    price: number;
-	    notes: string;
-	    is_active: boolean;
-	    created_at: any;
-	    updated_at: any;
-
-	    static createFrom(source: any = {}) { return new Product(source); }
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.id = source["id"];
-	        this.name = source["name"];
-	        this.category = source["category"] || "";
-	        this.unit = source["unit"] || "un";
-	        this.min_quantity = source["min_quantity"] || 0;
-	        this.current_stock = source["current_stock"] || 0;
-	        this.price = source["price"] || 0;
-	        this.notes = source["notes"] || "";
-	        this.is_active = source["is_active"];
-	        this.created_at = source["created_at"];
-	        this.updated_at = source["updated_at"];
-	    }
-	}
-
-	export class StockMovement {
-	    id: number;
-	    product_id: number;
-	    product_name: string;
-	    type: string;
-	    quantity: number;
-	    price: number;
-	    notes: string;
-	    date: any;
-	    created_at: any;
-
-	    static createFrom(source: any = {}) { return new StockMovement(source); }
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.id = source["id"];
-	        this.product_id = source["product_id"];
-	        this.product_name = source["product_name"] || "";
-	        this.type = source["type"];
-	        this.quantity = source["quantity"];
-	        this.price = source["price"] || 0;
-	        this.notes = source["notes"] || "";
-	        this.date = source["date"];
-	        this.created_at = source["created_at"];
-	    }
-	}
-
-	export class StockAlert {
-	    product: Product;
-	    deficit: number;
-
-	    static createFrom(source: any = {}) { return new StockAlert(source); }
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.product = source["product"];
-	        this.deficit = source["deficit"] || 0;
-	    }
-	}
-
-	export class ShoppingList {
-	    id: number;
-	    name: string;
-	    month: string;
-	    description: string;
-	    is_completed: boolean;
-	    total_budget: number;
-	    total_spent: number;
-	    items: ShoppingItem[];
-	    created_at: any;
-	    updated_at: any;
-
-	    static createFrom(source: any = {}) { return new ShoppingList(source); }
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.id = source["id"];
-	        this.name = source["name"];
-	        this.month = source["month"] || "";
-	        this.description = source["description"] || "";
-	        this.is_completed = source["is_completed"] || false;
-	        this.total_budget = source["total_budget"] || 0;
-	        this.total_spent = source["total_spent"] || 0;
-	        this.items = source["items"] || [];
-	        this.created_at = source["created_at"];
-	        this.updated_at = source["updated_at"];
-	    }
-	}
-
-	export class ShoppingItem {
-	    id: number;
-	    shopping_list_id: number;
-	    product_id?: number;
-	    name: string;
-	    quantity: number;
-	    unit: string;
-	    estimated_price: number;
-	    actual_price: number;
-	    category: string;
-	    is_bought: boolean;
-	    notes: string;
-	    created_at: any;
-
-	    static createFrom(source: any = {}) { return new ShoppingItem(source); }
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.id = source["id"];
-	        this.shopping_list_id = source["shopping_list_id"];
-	        this.product_id = source["product_id"];
-	        this.name = source["name"];
-	        this.quantity = source["quantity"] || 1;
-	        this.unit = source["unit"] || "un";
-	        this.estimated_price = source["estimated_price"] || 0;
-	        this.actual_price = source["actual_price"] || 0;
-	        this.category = source["category"] || "";
-	        this.is_bought = source["is_bought"] || false;
-	        this.notes = source["notes"] || "";
-	        this.created_at = source["created_at"];
-	    }
-	}
-
-}
-
 export namespace services {
-
+	
 	export class WAStatusInfo {
 	    status: string;
 	    phone: string;

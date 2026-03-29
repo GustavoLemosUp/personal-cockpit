@@ -14,8 +14,24 @@ export function AddDependency(arg1, arg2) {
   return window['go']['main']['App']['AddDependency'](arg1, arg2);
 }
 
+export function AddShoppingItem(arg1) {
+  return window['go']['main']['App']['AddShoppingItem'](arg1);
+}
+
+export function AddStockMovement(arg1) {
+  return window['go']['main']['App']['AddStockMovement'](arg1);
+}
+
 export function AddTaskLabel(arg1, arg2) {
   return window['go']['main']['App']['AddTaskLabel'](arg1, arg2);
+}
+
+export function ConnectWhatsApp() {
+  return window['go']['main']['App']['ConnectWhatsApp']();
+}
+
+export function CreateAccount(arg1) {
+  return window['go']['main']['App']['CreateAccount'](arg1);
 }
 
 export function CreateBoard(arg1, arg2, arg3) {
@@ -42,8 +58,20 @@ export function CreateNote(arg1) {
   return window['go']['main']['App']['CreateNote'](arg1);
 }
 
+export function CreateProduct(arg1) {
+  return window['go']['main']['App']['CreateProduct'](arg1);
+}
+
 export function CreateProfile(arg1) {
   return window['go']['main']['App']['CreateProfile'](arg1);
+}
+
+export function CreateScheduledTransaction(arg1) {
+  return window['go']['main']['App']['CreateScheduledTransaction'](arg1);
+}
+
+export function CreateShoppingList(arg1) {
+  return window['go']['main']['App']['CreateShoppingList'](arg1);
 }
 
 export function CreateSubtask(arg1, arg2) {
@@ -52,6 +80,14 @@ export function CreateSubtask(arg1, arg2) {
 
 export function CreateTask(arg1) {
   return window['go']['main']['App']['CreateTask'](arg1);
+}
+
+export function CreateTransaction(arg1) {
+  return window['go']['main']['App']['CreateTransaction'](arg1);
+}
+
+export function DeleteAccount(arg1) {
+  return window['go']['main']['App']['DeleteAccount'](arg1);
 }
 
 export function DeleteBoard(arg1) {
@@ -86,8 +122,24 @@ export function DeleteNote(arg1) {
   return window['go']['main']['App']['DeleteNote'](arg1);
 }
 
+export function DeleteProduct(arg1) {
+  return window['go']['main']['App']['DeleteProduct'](arg1);
+}
+
 export function DeleteProfile(arg1) {
   return window['go']['main']['App']['DeleteProfile'](arg1);
+}
+
+export function DeleteScheduledTransaction(arg1) {
+  return window['go']['main']['App']['DeleteScheduledTransaction'](arg1);
+}
+
+export function DeleteShoppingItem(arg1) {
+  return window['go']['main']['App']['DeleteShoppingItem'](arg1);
+}
+
+export function DeleteShoppingList(arg1) {
+  return window['go']['main']['App']['DeleteShoppingList'](arg1);
 }
 
 export function DeleteSubtask(arg1) {
@@ -98,8 +150,28 @@ export function DeleteTask(arg1) {
   return window['go']['main']['App']['DeleteTask'](arg1);
 }
 
+export function DeleteTransaction(arg1) {
+  return window['go']['main']['App']['DeleteTransaction'](arg1);
+}
+
+export function DeleteWAScheduled(arg1) {
+  return window['go']['main']['App']['DeleteWAScheduled'](arg1);
+}
+
 export function DisconnectGoogleCalendar(arg1) {
   return window['go']['main']['App']['DisconnectGoogleCalendar'](arg1);
+}
+
+export function DisconnectWhatsApp() {
+  return window['go']['main']['App']['DisconnectWhatsApp']();
+}
+
+export function ExecuteScheduledTransaction(arg1) {
+  return window['go']['main']['App']['ExecuteScheduledTransaction'](arg1);
+}
+
+export function GetAccounts() {
+  return window['go']['main']['App']['GetAccounts']();
 }
 
 export function GetActivity(arg1) {
@@ -158,8 +230,16 @@ export function GetFavoriteNotes() {
   return window['go']['main']['App']['GetFavoriteNotes']();
 }
 
+export function GetFinanceSummary() {
+  return window['go']['main']['App']['GetFinanceSummary']();
+}
+
 export function GetLabelsByBoard(arg1) {
   return window['go']['main']['App']['GetLabelsByBoard'](arg1);
+}
+
+export function GetLowStock() {
+  return window['go']['main']['App']['GetLowStock']();
 }
 
 export function GetNoteByID(arg1) {
@@ -174,12 +254,36 @@ export function GetPendingTasks() {
   return window['go']['main']['App']['GetPendingTasks']();
 }
 
+export function GetProducts() {
+  return window['go']['main']['App']['GetProducts']();
+}
+
 export function GetProfileByID(arg1) {
   return window['go']['main']['App']['GetProfileByID'](arg1);
 }
 
+export function GetScheduledTransactions() {
+  return window['go']['main']['App']['GetScheduledTransactions']();
+}
+
 export function GetSetting(arg1) {
   return window['go']['main']['App']['GetSetting'](arg1);
+}
+
+export function GetShoppingItems(arg1) {
+  return window['go']['main']['App']['GetShoppingItems'](arg1);
+}
+
+export function GetShoppingListWithItems(arg1) {
+  return window['go']['main']['App']['GetShoppingListWithItems'](arg1);
+}
+
+export function GetShoppingLists() {
+  return window['go']['main']['App']['GetShoppingLists']();
+}
+
+export function GetStockMovements(arg1, arg2) {
+  return window['go']['main']['App']['GetStockMovements'](arg1, arg2);
 }
 
 export function GetTaskByID(arg1) {
@@ -210,8 +314,28 @@ export function GetTodayEvents() {
   return window['go']['main']['App']['GetTodayEvents']();
 }
 
+export function GetTransactions(arg1) {
+  return window['go']['main']['App']['GetTransactions'](arg1);
+}
+
 export function GetUpcomingEvents() {
   return window['go']['main']['App']['GetUpcomingEvents']();
+}
+
+export function GetWAChats() {
+  return window['go']['main']['App']['GetWAChats']();
+}
+
+export function GetWAMessages(arg1, arg2, arg3) {
+  return window['go']['main']['App']['GetWAMessages'](arg1, arg2, arg3);
+}
+
+export function GetWAScheduled() {
+  return window['go']['main']['App']['GetWAScheduled']();
+}
+
+export function GetWhatsAppStatus() {
+  return window['go']['main']['App']['GetWhatsAppStatus']();
 }
 
 export function GoogleCalendarConfigured() {
@@ -228,6 +352,14 @@ export function Greet(arg1) {
 
 export function HasAnyProfile() {
   return window['go']['main']['App']['HasAnyProfile']();
+}
+
+export function LogoutWhatsApp() {
+  return window['go']['main']['App']['LogoutWhatsApp']();
+}
+
+export function MarkWARead(arg1) {
+  return window['go']['main']['App']['MarkWARead'](arg1);
 }
 
 export function MoveTask(arg1, arg2, arg3) {
@@ -250,8 +382,16 @@ export function ReorderColumns(arg1) {
   return window['go']['main']['App']['ReorderColumns'](arg1);
 }
 
+export function ScheduleWAMessage(arg1) {
+  return window['go']['main']['App']['ScheduleWAMessage'](arg1);
+}
+
 export function SearchNotes(arg1) {
   return window['go']['main']['App']['SearchNotes'](arg1);
+}
+
+export function SendWAMessage(arg1, arg2) {
+  return window['go']['main']['App']['SendWAMessage'](arg1, arg2);
 }
 
 export function SetCurrentProfile(arg1) {
@@ -286,12 +426,20 @@ export function ToggleNoteFavorite(arg1) {
   return window['go']['main']['App']['ToggleNoteFavorite'](arg1);
 }
 
+export function ToggleShoppingItem(arg1) {
+  return window['go']['main']['App']['ToggleShoppingItem'](arg1);
+}
+
 export function ToggleSubtask(arg1) {
   return window['go']['main']['App']['ToggleSubtask'](arg1);
 }
 
 export function ToggleTaskStatus(arg1) {
   return window['go']['main']['App']['ToggleTaskStatus'](arg1);
+}
+
+export function UpdateAccount(arg1) {
+  return window['go']['main']['App']['UpdateAccount'](arg1);
 }
 
 export function UpdateBoard(arg1, arg2, arg3) {
@@ -314,6 +462,10 @@ export function UpdateNote(arg1) {
   return window['go']['main']['App']['UpdateNote'](arg1);
 }
 
+export function UpdateProduct(arg1) {
+  return window['go']['main']['App']['UpdateProduct'](arg1);
+}
+
 export function UpdateProfile(arg1, arg2) {
   return window['go']['main']['App']['UpdateProfile'](arg1, arg2);
 }
@@ -322,166 +474,14 @@ export function UpdateProgress(arg1, arg2) {
   return window['go']['main']['App']['UpdateProgress'](arg1, arg2);
 }
 
+export function UpdateShoppingItem(arg1) {
+  return window['go']['main']['App']['UpdateShoppingItem'](arg1);
+}
+
 export function UpdateTask(arg1) {
   return window['go']['main']['App']['UpdateTask'](arg1);
 }
 
 export function VerifyPin(arg1, arg2) {
   return window['go']['main']['App']['VerifyPin'](arg1, arg2);
-}
-
-export function ConnectWhatsApp() {
-  return window['go']['main']['App']['ConnectWhatsApp']();
-}
-
-export function DeleteWAScheduled(arg1) {
-  return window['go']['main']['App']['DeleteWAScheduled'](arg1);
-}
-
-export function DisconnectWhatsApp() {
-  return window['go']['main']['App']['DisconnectWhatsApp']();
-}
-
-export function GetWAChats() {
-  return window['go']['main']['App']['GetWAChats']();
-}
-
-export function GetWAMessages(arg1, arg2, arg3) {
-  return window['go']['main']['App']['GetWAMessages'](arg1, arg2, arg3);
-}
-
-export function GetWAScheduled() {
-  return window['go']['main']['App']['GetWAScheduled']();
-}
-
-export function GetWhatsAppStatus() {
-  return window['go']['main']['App']['GetWhatsAppStatus']();
-}
-
-export function LogoutWhatsApp() {
-  return window['go']['main']['App']['LogoutWhatsApp']();
-}
-
-export function MarkWARead(arg1) {
-  return window['go']['main']['App']['MarkWARead'](arg1);
-}
-
-export function ScheduleWAMessage(arg1) {
-  return window['go']['main']['App']['ScheduleWAMessage'](arg1);
-}
-
-export function SendWAMessage(arg1, arg2) {
-  return window['go']['main']['App']['SendWAMessage'](arg1, arg2);
-}
-
-export function CreateAccount(arg1) {
-  return window['go']['main']['App']['CreateAccount'](arg1);
-}
-
-export function GetAccounts() {
-  return window['go']['main']['App']['GetAccounts']();
-}
-
-export function UpdateAccount(arg1) {
-  return window['go']['main']['App']['UpdateAccount'](arg1);
-}
-
-export function DeleteAccount(arg1) {
-  return window['go']['main']['App']['DeleteAccount'](arg1);
-}
-
-export function CreateTransaction(arg1) {
-  return window['go']['main']['App']['CreateTransaction'](arg1);
-}
-
-export function GetTransactions(arg1) {
-  return window['go']['main']['App']['GetTransactions'](arg1);
-}
-
-export function DeleteTransaction(arg1) {
-  return window['go']['main']['App']['DeleteTransaction'](arg1);
-}
-
-export function CreateScheduledTransaction(arg1) {
-  return window['go']['main']['App']['CreateScheduledTransaction'](arg1);
-}
-
-export function GetScheduledTransactions() {
-  return window['go']['main']['App']['GetScheduledTransactions']();
-}
-
-export function ExecuteScheduledTransaction(arg1) {
-  return window['go']['main']['App']['ExecuteScheduledTransaction'](arg1);
-}
-
-export function DeleteScheduledTransaction(arg1) {
-  return window['go']['main']['App']['DeleteScheduledTransaction'](arg1);
-}
-
-export function GetFinanceSummary() {
-  return window['go']['main']['App']['GetFinanceSummary']();
-}
-
-export function CreateProduct(arg1) {
-  return window['go']['main']['App']['CreateProduct'](arg1);
-}
-
-export function GetProducts() {
-  return window['go']['main']['App']['GetProducts']();
-}
-
-export function UpdateProduct(arg1) {
-  return window['go']['main']['App']['UpdateProduct'](arg1);
-}
-
-export function DeleteProduct(arg1) {
-  return window['go']['main']['App']['DeleteProduct'](arg1);
-}
-
-export function GetLowStock() {
-  return window['go']['main']['App']['GetLowStock']();
-}
-
-export function AddStockMovement(arg1) {
-  return window['go']['main']['App']['AddStockMovement'](arg1);
-}
-
-export function GetStockMovements(arg1, arg2) {
-  return window['go']['main']['App']['GetStockMovements'](arg1, arg2);
-}
-
-export function CreateShoppingList(arg1) {
-  return window['go']['main']['App']['CreateShoppingList'](arg1);
-}
-
-export function GetShoppingLists() {
-  return window['go']['main']['App']['GetShoppingLists']();
-}
-
-export function GetShoppingListWithItems(arg1) {
-  return window['go']['main']['App']['GetShoppingListWithItems'](arg1);
-}
-
-export function DeleteShoppingList(arg1) {
-  return window['go']['main']['App']['DeleteShoppingList'](arg1);
-}
-
-export function AddShoppingItem(arg1) {
-  return window['go']['main']['App']['AddShoppingItem'](arg1);
-}
-
-export function GetShoppingItems(arg1) {
-  return window['go']['main']['App']['GetShoppingItems'](arg1);
-}
-
-export function ToggleShoppingItem(arg1) {
-  return window['go']['main']['App']['ToggleShoppingItem'](arg1);
-}
-
-export function UpdateShoppingItem(arg1) {
-  return window['go']['main']['App']['UpdateShoppingItem'](arg1);
-}
-
-export function DeleteShoppingItem(arg1) {
-  return window['go']['main']['App']['DeleteShoppingItem'](arg1);
 }
