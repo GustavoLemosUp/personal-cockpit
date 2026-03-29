@@ -2,6 +2,7 @@ package services
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -38,13 +39,12 @@ func (s *EventService) CreateEvent(event models.Event) (int64, error) {
 	}
 
 	if len(erros) > 0 {
-		mensagem := "Campos obrigatórios:\n- " + strings.Join(erros, "\n- ")
-		return 0, fmt.Errorf(mensagem)
+		return 0, errors.New("Campos obrigatórios:\n- " + strings.Join(erros, "\n- "))
 	}
 
 	query := `
-		INSERT INTO events (title, description, start_date, end_date, all_day, color, location, reminder_minutes)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+		INSERT INTO events (title, description, start_date, end_date, all_day, color, location, reminder_minutes, google_event_id)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 	`
 
 	result, err := s.db.Exec(
@@ -57,6 +57,7 @@ func (s *EventService) CreateEvent(event models.Event) (int64, error) {
 		event.Color,
 		event.Location,
 		event.ReminderMinutes,
+		event.GoogleEventID,
 	)
 
 	if err != nil {
@@ -74,7 +75,7 @@ func (s *EventService) CreateEvent(event models.Event) (int64, error) {
 func (s *EventService) GetAllEvents() ([]models.Event, error) {
 	query := `
 		SELECT id, title, description, start_date, end_date, all_day, color, location, 
-		       reminder_minutes, created_at, updated_at
+		       reminder_minutes, google_event_id, created_at, updated_at
 		FROM events
 		ORDER BY start_date ASC
 	`
@@ -99,6 +100,7 @@ func (s *EventService) GetAllEvents() ([]models.Event, error) {
 			&event.Color,
 			&event.Location,
 			&event.ReminderMinutes,
+			&event.GoogleEventID,
 			&event.CreatedAt,
 			&event.UpdatedAt,
 		)
@@ -115,7 +117,7 @@ func (s *EventService) GetAllEvents() ([]models.Event, error) {
 func (s *EventService) GetEventByID(id int) (*models.Event, error) {
 	query := `
 		SELECT id, title, description, start_date, end_date, all_day, color, location, 
-		       reminder_minutes, created_at, updated_at
+		       reminder_minutes, google_event_id, created_at, updated_at
 		FROM events
 		WHERE id = ?
 	`
@@ -151,9 +153,9 @@ func (s *EventService) UpdateEvent(event models.Event) error {
 	}
 
 	query := `
-		UPDATE events 
-		SET title = ?, description = ?, start_date = ?, end_date = ?, all_day = ?, 
-		    color = ?, location = ?, reminder_minutes = ?
+		UPDATE events
+		SET title = ?, description = ?, start_date = ?, end_date = ?, all_day = ?,
+		    color = ?, location = ?, reminder_minutes = ?, google_event_id = ?
 		WHERE id = ?
 	`
 
@@ -167,6 +169,7 @@ func (s *EventService) UpdateEvent(event models.Event) error {
 		event.Color,
 		event.Location,
 		event.ReminderMinutes,
+		event.GoogleEventID,
 		event.ID,
 	)
 
@@ -210,7 +213,7 @@ func (s *EventService) DeleteEvent(id int) error {
 func (s *EventService) GetEventsByDateRange(startDate, endDate time.Time) ([]models.Event, error) {
 	query := `
 		SELECT id, title, description, start_date, end_date, all_day, color, location, 
-		       reminder_minutes, created_at, updated_at
+		       reminder_minutes, google_event_id, created_at, updated_at
 		FROM events
 		WHERE start_date >= ? AND start_date <= ?
 		ORDER BY start_date ASC
@@ -236,6 +239,7 @@ func (s *EventService) GetEventsByDateRange(startDate, endDate time.Time) ([]mod
 			&event.Color,
 			&event.Location,
 			&event.ReminderMinutes,
+			&event.GoogleEventID,
 			&event.CreatedAt,
 			&event.UpdatedAt,
 		)

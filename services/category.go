@@ -2,6 +2,7 @@ package services
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -28,8 +29,7 @@ func (s *CategoryService) CreateCategory(category models.Category) (int64, error
 	}
 
 	if len(erros) > 0 {
-		mensagem := "Campos obrigatórios:\n- " + strings.Join(erros, "\n- ")
-		return 0, fmt.Errorf(mensagem)
+		return 0, errors.New("Campos obrigatórios:\n- " + strings.Join(erros, "\n- "))
 	}
 
 	// Query SQL

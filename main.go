@@ -2,13 +2,13 @@ package main
 
 import (
 	"embed"
-	"fmt"
 	"log"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 
+	"personal-cockpit/config"
 	"personal-cockpit/database"
 )
 
@@ -16,23 +16,22 @@ import (
 var assets embed.FS
 
 func main() {
-	// Criar e testar banco de dados
-	fmt.Println("🔄 Inicializando banco de dados...")
+	cfg := config.MustLoad()
+
+	log.Println("Inicializando banco de dados...")
 	db, err := database.NewDB()
 	if err != nil {
-		log.Fatal("❌ Erro ao criar banco:", err)
+		log.Fatal("Erro ao criar banco:", err)
 	}
 	defer db.Close()
-	fmt.Println("✅ Banco de dados pronto!\n")
+	log.Println("Banco de dados pronto!")
 
-	// Criar instância do App
 	app := NewApp()
 
-	// Criar aplicação Wails
 	err = wails.Run(&options.App{
-		Title:  "Personal Cockpit",
-		Width:  1024,
-		Height: 768,
+		Title:  cfg.WindowTitle,
+		Width:  cfg.WindowWidth,
+		Height: cfg.WindowHeight,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
@@ -44,6 +43,6 @@ func main() {
 	})
 
 	if err != nil {
-		println("Error:", err.Error())
+		log.Fatal("Erro ao iniciar app:", err)
 	}
 }

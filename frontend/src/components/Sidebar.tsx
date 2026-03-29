@@ -5,6 +5,7 @@ import logo from '../assets/images/logo.png';
 interface SidebarProps {
   currentPage: string;
   onNavigate: (page: string) => void;
+  profileID?: number;
 }
 
 export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
@@ -12,16 +13,17 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
   const { theme, changeTheme } = useTheme();
 
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: '▦' },
-    { id: 'tasks', label: 'Tarefas', icon: '✓' },
-    { id: 'notes', label: 'Notas', icon: '◐' },
-    { id: 'events', label: 'Eventos', icon: '◷' },
-    { id: 'categories', label: 'Categorias', icon: '◈' },
-    { id: 'whatsapp', label: 'WhatsApp', icon: '◉' },
+    { id: 'dashboard',  label: 'Dashboard',  icon: '▦' },
+    { id: 'tasks',       label: 'Tarefas',     icon: '✓' },
+    { id: 'kanban',      label: 'Kanban',      icon: '⊞' },
+    { id: 'notes',       label: 'Notas',       icon: '◐' },
+    { id: 'events',      label: 'Eventos',     icon: '◷' },
+    { id: 'categories',  label: 'Categorias',  icon: '◈' },
+    { id: 'whatsapp',    label: 'WhatsApp',    icon: '◉' },
   ];
 
   return (
-    <aside 
+    <aside
       className={`sidebar ${collapsed ? 'collapsed' : ''}`}
       onMouseEnter={() => setCollapsed(false)}
       onMouseLeave={() => setCollapsed(true)}
@@ -32,7 +34,7 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
         </div>
         <div className="sidebar-title-wrapper">
           <h2 className="sidebar-title">Personal Cockpit</h2>
-          <p className="sidebar-subtitle">v1.0.0</p>
+          <p className="sidebar-subtitle">v2.0.0</p>
         </div>
       </div>
 
@@ -52,30 +54,19 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
         </div>
       </nav>
 
-      {/* Tema no footer */}
       <div className="sidebar-footer">
+        <button
+          className={`nav-item ${currentPage === 'settings' ? 'active' : ''}`}
+          onClick={() => onNavigate('settings')}
+        >
+          <span className="nav-icon">⚙</span>
+          <span className="nav-label">Configurações</span>
+        </button>
+
         <div className="theme-switcher">
-          <button 
-            className={`theme-btn ${theme === 'light' ? 'active' : ''}`}
-            onClick={() => changeTheme('light')}
-            title="Claro"
-          >
-            ☀
-          </button>
-          <button 
-            className={`theme-btn ${theme === 'auto' ? 'active' : ''}`}
-            onClick={() => changeTheme('auto')}
-            title="Auto"
-          >
-            ◐
-          </button>
-          <button 
-            className={`theme-btn ${theme === 'dark' ? 'active' : ''}`}
-            onClick={() => changeTheme('dark')}
-            title="Escuro"
-          >
-            ☾
-          </button>
+          <button className={`theme-btn ${theme === 'light' ? 'active' : ''}`} onClick={() => changeTheme('light')} title="Claro">☀</button>
+          <button className={`theme-btn ${theme === 'auto'  ? 'active' : ''}`} onClick={() => changeTheme('auto')}  title="Auto">◐</button>
+          <button className={`theme-btn ${theme === 'dark'  ? 'active' : ''}`} onClick={() => changeTheme('dark')}  title="Escuro">☾</button>
         </div>
       </div>
     </aside>

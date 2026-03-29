@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"personal-cockpit/config"
 	_ "modernc.org/sqlite"
 )
 
@@ -42,23 +43,19 @@ func NewDB() (*DB, error) {
 }
 
 func getDatabasePath() (string, error) {
-	// Obter diretório de configuração do usuário
-	// Windows: C:\Users\{user}\AppData\Roaming
-	// macOS: ~/Library/Application Support
-	// Linux: ~/.config
+	cfg := config.MustLoad()
+
 	configDir, err := os.UserConfigDir()
 	if err != nil {
 		return "", err
 	}
 
-	// Criar diretório do app se não existir
-	appDir := filepath.Join(configDir, "Personal Cockpit")
+	appDir := filepath.Join(configDir, cfg.DBDirName)
 	if err := os.MkdirAll(appDir, 0755); err != nil {
 		return "", err
 	}
 
-	// Retornar caminho completo do banco
-	return filepath.Join(appDir, "cockpit.db"), nil
+	return filepath.Join(appDir, cfg.DBFile), nil
 }
 
 func (db *DB) configurePragmas() error {
